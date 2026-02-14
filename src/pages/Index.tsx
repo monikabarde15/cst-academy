@@ -8,16 +8,33 @@ import SEO from '@/components/SEO';
 import ThreeBackground from '@/components/ThreeBackground';
 import Safe3D from '@/components/Safe3D';
 import SimpleContact from '@/components/SimpleContact';
+import WorkshopPopup from './WorkshopPopup';
+import React, { useState } from "react";
 
 const FallbackBackground = () => (
+
   <div className="absolute inset-0 bg-wrlds-dark overflow-hidden">
     <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-wrlds-blue/10 rounded-full blur-[150px] animate-pulse-slow"></div>
   </div>
 );
 
 const Index = () => {
+      const [open, setOpen] = useState(true);
+
   return (
     <PageLayout>
+      <WorkshopPopup
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="AI & Cyber Security Workshop – 21st Feb"
+        targetDate="2026-02-21T18:00:00"
+        points={[
+          "Hands-on live training",
+          "Real-world projects",
+          "Certificate included",
+          "Placement guidance",
+        ]}
+      />
       <SEO
         title="WRLDS - The Connected Future"
         description="We transform visionary concepts into market-ready connected products. Hardware, software, and manufacturing integrated seamlessly."
