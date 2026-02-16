@@ -37,7 +37,7 @@ const Navbar = () => {
   };
 
   return (
-    <motion.nav className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full", isScrolled ? "bg-white shadow-sm" : "bg-black")} initial={{
+    <motion.nav className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full", isScrolled ? "shadow-sm" : "")} initial={{
       opacity: 1,
       y: 0
     }} animate={{
@@ -52,8 +52,8 @@ const Navbar = () => {
     src="/logo/cst-academy-logo.png"
     alt="WRLDS Technologies Logo"
     className={cn(
-      "h-14 md:h-16 w-auto object-contain transition-all duration-300",
-      isScrolled ? "brightness-100" : "brightness-0 invert"
+      "h-14 md:h-16 w-auto object-contain transition-all duration-300 mt-10 rounded-xl overflow-hidden mt-10",
+      isScrolled ? "bg-white" : "bg-white"
     )}
   />
 </Link>
@@ -67,13 +67,13 @@ const Navbar = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link to="/#services">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-700 hover:text-gray-900" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
                       Services
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                   <NavigationMenuItem>
-                  <NavigationMenuTrigger className={cn(isScrolled ? "text-gray-700 hover:text-gray-900" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
+                  <NavigationMenuTrigger className={cn(isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
                     Courses
                   </NavigationMenuTrigger>
                  <NavigationMenuContent>
@@ -81,7 +81,7 @@ const Navbar = () => {
                     
                     <li>
                       <Link to="/projects/cyber-security" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium">Cyber Security Certification Courses</div>
+                        <div className="font-medium text-gray-500">Cyber Security Certification Courses</div>
                         <p className="text-sm text-gray-500">
                           Industry-recognized cybersecurity training programs
                         </p>
@@ -90,7 +90,7 @@ const Navbar = () => {
 
                     <li>
                       <Link to="/projects/ethical-hacking" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium">Certified Ethical Hacking Courses</div>
+                        <div className="font-medium text-gray-500">Certified Ethical Hacking Courses</div>
                         <p className="text-sm text-gray-500">
                           Learn ethical hacking and penetration testing
                         </p>
@@ -99,7 +99,7 @@ const Navbar = () => {
 
                     <li>
                       <Link to="/projects/ceh-v13" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium">CEH v13 Ethical Hacker Course</div>
+                        <div className="font-medium text-gray-500">CEH v13 Ethical Hacker Course</div>
                         <p className="text-sm text-gray-500">
                           Latest CEH v13 certification training program
                         </p>
@@ -108,7 +108,7 @@ const Navbar = () => {
 
                     <li>
                       <Link to="/projects/bug-bounty" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium">Bug Bounty Diploma Course</div>
+                        <div className="font-medium text-gray-500">Bug Bounty Diploma Course</div>
                         <p className="text-sm text-gray-500">
                           Master vulnerability discovery and reporting
                         </p>
@@ -117,7 +117,7 @@ const Navbar = () => {
 
                     <li>
                       <Link to="/projects/advanced-cyber-security" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium">Advanced Cyber Security Program</div>
+                        <div className="font-medium text-gray-500">Advanced Cyber Security Program</div>
                         <p className="text-sm text-gray-500">
                           Comprehensive security training for professionals
                         </p>
@@ -130,21 +130,21 @@ const Navbar = () => {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/cases">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-700 hover:text-gray-900" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
                       Case Studies
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>                
                 <NavigationMenuItem>
                   <Link to="/blog">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-700 hover:text-gray-900" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
                       News
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/about">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-700 hover:text-gray-900" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
                       About Us
                     </NavigationMenuLink>
                   </Link>
