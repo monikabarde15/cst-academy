@@ -20,9 +20,18 @@ import Careers from "./pages/Careers";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Blog from "./pages/Blog";
 import BlogPostDetail from "./pages/BlogPostDetail";
+import CoursePostDetail from "./pages/CoursePostDetail";
 import Cases from "./pages/Cases";
+import CyberSecurity from "./pages/CyberSecurity";
+import EthicalHacking from "./pages/EthicalHacking";
+import Cehv13 from "./pages/Cehv13";
+import BugBounty from "./pages/BugBounty";
+import AdvancedCyberSecurity from "./pages/AdvancedCyberSecurity";
 import Preloader from "./components/Preloader";
 import Cursor from "./components/Cursor";
+import AdminLogin from "./pages/admin/LoginPage";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
@@ -34,11 +43,26 @@ const App = () => {
       <div className="noise-overlay"></div>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
+        <Sonner /> 
+        <BrowserRouter> 
+          <Routes> 
             <Route path="/" element={<Index />} />
             <Route path="/cases" element={<Cases />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminProtectedRoute>
+                    <AdminDashboard />
+                  </AdminProtectedRoute>
+                }
+              />
+
+             <Route path="/projects/advanced-cyber-security" element={<AdvancedCyberSecurity />} />
+            <Route path="/projects/bug-bounty" element={<BugBounty />} />
+             <Route path="/projects/ethical-hacking" element={<EthicalHacking />} />
+            <Route path="/projects/ceh-v13" element={<Cehv13 />} />
+             <Route path="/projects/cyber-security" element={<CyberSecurity />} />
             <Route path="/projects/firecat" element={<FireCatProject />} />
             <Route path="/projects/sport-retail" element={<SportRetailProject />} />
             <Route path="/projects/workwear" element={<WorkwearProject />} />
@@ -52,6 +76,7 @@ const App = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPostDetail />} />
+            <Route path="/course-detail/:slug" element={<CoursePostDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import ServicesSection from '@/components/ServicesSection';
 import WhyUs from '@/components/WhyUs';
 import Projects from '@/components/Projects';
+import Blogs from '@/components/Blogs';
 import Sectors from '@/components/Sectors';
 import SEO from '@/components/SEO';
 import ThreeBackground from '@/components/ThreeBackground';
@@ -52,8 +53,9 @@ const Index = () => {
       {/* Content */}
       <div className="relative z-10">
         <Hero />
-        <ServicesSection />
         <Sectors />
+        <ServicesSection />
+        <Blogs />
         <Projects />
         <WhyUs />
 
