@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import PageLayout from '@/components/PageLayout';
 import Hero from '@/components/Hero';
 import ServicesSection from '@/components/ServicesSection';
@@ -10,7 +11,6 @@ import ThreeBackground from '@/components/ThreeBackground';
 import Safe3D from '@/components/Safe3D';
 import SimpleContact from '@/components/SimpleContact';
 import WorkshopPopup from './WorkshopPopup';
-import React, { useState } from "react";
 
 const FallbackBackground = () => (
 
@@ -20,21 +20,24 @@ const FallbackBackground = () => (
 );
 
 const Index = () => {
-      const [open, setOpen] = useState(true);
+const [showPopup, setShowPopup] = useState(false);
 
+  useEffect(() => {
+    const alreadyRegistered = localStorage.getItem("workshopRegistered");
+
+    if (!alreadyRegistered) {
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
   return (
     <PageLayout>
       <WorkshopPopup
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        title="AI & Cyber Security Workshop – 21st Feb"
-        targetDate="2026-02-21T18:00:00"
-        points={[
-          "Hands-on live training",
-          "Real-world projects",
-          "Certificate included",
-          "Placement guidance",
-        ]}
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
       />
       <SEO
         title="WRLDS - The Connected Future"

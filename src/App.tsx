@@ -30,7 +30,12 @@ import AdvancedCyberSecurity from "./pages/AdvancedCyberSecurity";
 import Preloader from "./components/Preloader";
 import Cursor from "./components/Cursor";
 import AdminLogin from "./pages/admin/LoginPage";
+import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminWorkshopPage from "./pages/admin/AdminWorkshopPage";
+import AdminContactPage from "./pages/admin/AdminContactPage";
+import AdminServices from "./pages/admin/AdminServices";
+
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 const App = () => {
@@ -49,14 +54,21 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/cases" element={<Cases />} />
             <Route path="/login" element={<AdminLogin />} />
-            <Route
-                path="/admin/dashboard"
-                element={
-                  <AdminProtectedRoute>
-                    <AdminDashboard />
-                  </AdminProtectedRoute>
-                }
-              />
+            
+           <Route
+            path="/admin"
+            element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }
+          >
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="workshop" element={<AdminWorkshopPage />} />
+            <Route path="contacts" element={<AdminContactPage />} />
+            <Route path="services" element={<AdminServices />} />
+          </Route>
+
 
              <Route path="/projects/advanced-cyber-security" element={<AdvancedCyberSecurity />} />
             <Route path="/projects/bug-bounty" element={<BugBounty />} />
