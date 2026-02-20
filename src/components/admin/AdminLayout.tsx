@@ -61,7 +61,8 @@ const AdminLayout = () => {
   };
 
   return (
-<div className={`${darkMode ? "bg-[#0B1C3D] text-white" : "bg-[#F4F7FB] text-gray-900"} flex min-h-screen w-full`}>
+    <div className={`${darkMode ? "bg-[#0B1C3D] text-white" : "bg-[#F4F7FB] text-gray-900"} flex min-h-screen`}>
+
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
@@ -71,20 +72,14 @@ const AdminLayout = () => {
       )}
 
       {/* Sidebar */}
-    <aside
-  className={`
-    fixed md:relative
-    top-0 left-0
-    h-full
-    ${collapsed ? "w-20" : "w-64"}
-    bg-[#0B1C3D]
-    transition-all duration-300
-    transform
-    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-    md:translate-x-0
-    z-50
-  `}
->
+      <aside
+        className={`${
+          collapsed ? "w-20" : "w-64"
+        } bg-[#0B1C3D] transition-all duration-300 flex-shrink-0
+        fixed md:relative top-0 left-0 h-screen z-50
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0`}
+      >
         <div className="flex flex-col h-full p-6">
 
           {/* Collapse */}
@@ -124,7 +119,7 @@ const AdminLayout = () => {
       <div className="flex-1 flex flex-col">
 
         {/* Header */}
-        <header className={`${darkMode ? "bg-[#112B5A]" : "bg-white"} px-4 md:px-8  py-4 flex items-center justify-between border-b ${darkMode ? "border-[#1E3A8A]" : "border-gray-200"}`}>
+        <header className={`${darkMode ? "bg-[#112B5A]" : "bg-white"} px-8 py-4 flex items-center justify-between border-b ${darkMode ? "border-[#1E3A8A]" : "border-gray-200"}`}>
 
           <div className="flex items-center gap-4">
             <button className="md:hidden" onClick={() => setSidebarOpen(true)}>
@@ -180,7 +175,8 @@ const AdminLayout = () => {
         </header>
 
         {/* Content */}
-<main className="flex-1 w-full p-4 md:p-8">
+        <main className="flex-1 p-8">
+
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
