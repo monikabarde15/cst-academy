@@ -4,23 +4,28 @@ import { Zap, Target, Rocket, ShieldCheck } from "lucide-react";
 const reasons = [
     {
         icon: <Zap className="w-6 h-6 text-wrlds-blue" />,
-        title: "Velocity",
-        description: "We ship in weeks, not years. Our pre-validated modules cut development time by 60%.",
+        title: "Industry-driven, practical curriculum",
+        description: "Industry-driven, practical curriculum.",
     },
     {
         icon: <Target className="w-6 h-6 text-white" />,
-        title: "Precision",
-        description: "Hardware that fits, firmware that holds, and apps that flow. Zero disconnects.",
+        title: "Trainers with real-world cybersecurity experience",
+        description: "Trainers with real-world cybersecurity experience.",
     },
     {
         icon: <Rocket className="w-6 h-6 text-blue-300" />,
-        title: "Scalability",
-        description: "From 1 prototype to 1 million units. We handle the supply chain chaos for you.",
+        title: "Hands-on labs and live tools",
+        description: "Hands-on labs and live tools.",
     },
     {
         icon: <ShieldCheck className="w-6 h-6 text-wrlds-muted" />,
-        title: "Reliability",
-        description: "Battle-tested code and components. We build things that survive the real world.",
+        title: "Career mentoring and placement support",
+        description: "Career mentoring and placement support.",
+    },
+    {
+        icon: <ShieldCheck className="w-6 h-6 text-wrlds-muted" />,
+        title: "Affordable and flexible learning options",
+        description: "Affordable and flexible learning options.",
     }
 ];
 
@@ -34,11 +39,11 @@ const WhyUs = () => {
                 <div className="mb-16 md:flex md:justify-between md:items-end">
                     <div className="max-w-xl">
                         <h2 className="text-3xl md:text-5xl font-bold font-space mb-4 text-white">
-                            WHY <span className="text-transparent bg-clip-text bg-gradient-to-r from-wrlds-blue to-white">VISIONARIES</span> <br /> CHOOSE WRLDS.
+                            WHY <span className="text-transparent bg-clip-text bg-gradient-to-r from-wrlds-blue to-white">Learners</span> <br /> Choose CST Academy.
                         </h2>
                     </div>
                     <p className="hidden md:block text-wrlds-muted max-w-xs text-sm">
-                        Because building hardware is hard. We make it look easy.
+                       CST Academy stands apart because we focus on skills, outcomes, and careers.
                     </p>
                 </div>
 

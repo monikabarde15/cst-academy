@@ -5,10 +5,39 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import axios from "axios";
 
 const Navbar = () => {
+  
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+
+useEffect(() => {
+  const fetchNavbarCategories = async () => {
+    try {
+      const res = await axios.get(
+        "https://cst-acadmay-backend.onrender.com/api/services/navbar-categories",
+        {
+          params: { type: "course" },
+        }
+      );
+
+      if (res.data.success) {
+        setCategories(res.data.data);
+      } else {
+        setCategories([]);
+      }
+
+    } catch (error) {
+      console.error("Navbar category error:", error);
+      setCategories([]);
+    }
+  };
+
+  fetchNavbarCategories();
+}, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,9 +95,9 @@ const Navbar = () => {
             <NavigationMenu className={cn(isScrolled ? "" : "text-white")}>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link to="/#services">
+                  <Link to="/">
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
-                      Services
+                      Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -76,57 +105,41 @@ const Navbar = () => {
                   <NavigationMenuTrigger className={cn(isScrolled ? "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800" : "text-gray-100 hover:text-white bg-transparent hover:bg-gray-800")}>
                     Courses
                   </NavigationMenuTrigger>
-                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 w-[400px]">
-                    
-                    <li>
-                      <Link to="/projects/cyber-security" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium text-gray-500">Cyber Security Certification Courses</div>
-                        <p className="text-sm text-gray-500">
-                          Industry-recognized cybersecurity training programs
-                        </p>
-                      </Link>
-                    </li>
+                 
+                  <NavigationMenuContent>
+                  <ul className="grid gap-3 p-4 w-[400px] max-h-[400px] overflow-y-auto">
 
-                    <li>
-                      <Link to="/projects/ethical-hacking" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium text-gray-500">Certified Ethical Hacking Courses</div>
-                        <p className="text-sm text-gray-500">
-                          Learn ethical hacking and penetration testing
-                        </p>
-                      </Link>
-                    </li>
+                    {!categories || categories.length === 0 ? (
+                      <li className="text-gray-400 text-sm">
+                        No Categories Available
+                      </li>
+                    ) : (
+                      categories.map((item) => (
+                        <li key={item.category}>
+                          <Link
+                            to={`/projects/services?type=course&category=${encodeURIComponent(
+                              item.category
+                            )}`}
+                            className="block p-3 space-y-1 rounded-md hover:bg-gray-100 transition-colors"
+                          >
+                            {/* Category Name */}
+                            <div className="font-medium text-gray-100 hover:text-black transition-colors">
+                              {item.category}
+                            </div>
 
-                    <li>
-                      <Link to="/projects/ceh-v13" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium text-gray-500">CEH v13 Ethical Hacker Course</div>
-                        <p className="text-sm text-gray-500">
-                          Latest CEH v13 certification training program
-                        </p>
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link to="/projects/bug-bounty" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium text-gray-500">Bug Bounty Diploma Course</div>
-                        <p className="text-sm text-gray-500">
-                          Master vulnerability discovery and reporting
-                        </p>
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link to="/projects/advanced-cyber-security" className="block p-3 space-y-1 rounded-md hover:bg-gray-100">
-                        <div className="font-medium text-gray-500">Advanced Cyber Security Program</div>
-                        <p className="text-sm text-gray-500">
-                          Comprehensive security training for professionals
-                        </p>
-                      </Link>
-                    </li>
+                            {/* Excerpt */}
+                            <p className="text-sm text-gray-500 line-clamp-2">
+                              {item.excerpt
+                                ?.replace(/<[^>]+>/g, "")
+                                .slice(0, 80)}...
+                            </p>
+                          </Link>
+                        </li>
+                      ))
+                    )}
 
                   </ul>
-                </NavigationMenuContent>
-
+                  </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/cases">

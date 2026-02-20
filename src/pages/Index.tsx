@@ -40,10 +40,10 @@ const [showPopup, setShowPopup] = useState(false);
         onClose={() => setShowPopup(false)}
       />
       <SEO
-        title="WRLDS - The Connected Future"
-        description="We transform visionary concepts into market-ready connected products. Hardware, software, and manufacturing integrated seamlessly."
-        imageUrl="/lovable-uploads/526dc38a-25fa-40d4-b520-425b23ae0464.png"
-        keywords={['IoT development', 'connected product development', 'hardware software integration', 'smart product partner', 'end-to-end IoT solutions', 'rapid prototyping', 'product development']}
+        title="CST Academy | Cybersecurity Training & Ethical Hacking Institute"
+        description="CST Academy offers hands-on cybersecurity training, ethical hacking, SOC analyst courses & corporate security programs. Build a secure career today."
+        imageUrl="/logo/cstacademylogo.png"
+        keywords={['cybersecurity training institute', 'cybersecurity courses', 'ethical hacking training', 'SOC analyst training', 'cyber security course with placement']}
       />
       
       {/* Global starfield background */}
@@ -63,18 +63,50 @@ const [showPopup, setShowPopup] = useState(false);
         <WhyUs />
 
         {/* University Collaboration Section */}
-        <section className="py-20 bg-transparent relative z-20">
-          <div className="container px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h3 className="text-2xl md:text-3xl font-bold font-space text-white mb-6">
-                Academic <span className="text-wrlds-blue">Partnerships</span>
-              </h3>
-              <p className="text-lg text-wrlds-muted leading-relaxed">
-                We collaborate with leading universities including <span className="text-white font-medium">Borås Textilhögskola</span> and <span className="text-white font-medium">KTH Royal Institute of Technology</span> to provide internship opportunities and drive innovation in smart textiles and connected technology.
-              </p>
+     <section className="py-20 bg-transparent relative z-20">
+      <div className="container px-6">
+
+        {/* Heading */}
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <h3 className="text-2xl md:text-3xl font-bold font-space text-white mb-6">
+            Academic <span className="text-wrlds-blue">& Industry Partnerships</span>
+          </h3>
+
+          <p className="text-lg text-wrlds-muted leading-relaxed">
+            CST Academy collaborates with colleges, universities, 
+            <span className="text-white font-medium"> and corporate </span> 
+            partners to bridge 
+            <span className="text-white font-medium"> the cybersecurity </span> 
+            skill gap.
+          </p>
+        </div>
+
+        {/* Partnership Points */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          
+          {[
+            "Campus training and bootcamps",
+            "Internship-oriented programs",
+            "Faculty development workshops",
+            "Corporate upskilling initiatives"
+          ].map((item, index) => (
+            <div
+              key={index}
+              className="glass-card p-6 rounded-xl border border-white/5 bg-wrlds-surface hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="flex items-start gap-3">
+                <span className="w-2 h-2 mt-2 rounded-full bg-wrlds-blue"></span>
+                <p className="text-wrlds-muted group-hover:text-white transition-colors duration-300">
+                  {item}
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
+          ))}
+
+        </div>
+
+      </div>
+    </section>
 
         <SimpleContact />
       </div>

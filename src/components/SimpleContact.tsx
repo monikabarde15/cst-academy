@@ -63,18 +63,41 @@ const SimpleContact = () => {
       <div className="container mx-auto px-6">
 
         {/* Header */}
-        <div className="text-center mb-16">
+       <div className="text-center mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl font-bold text-white mb-4"
           >
-            Let's Build <span className="text-wrlds-blue">Together</span>
+            Let's Build{" "}
+            <span className="text-wrlds-blue">
+              Your Cybersecurity Future
+            </span>
           </motion.h2>
 
-          <p className="text-white/60 text-lg max-w-xl mx-auto">
-            Send us your details and we will contact you soon.
+          <p className="text-white/60 text-sm max-w-xl mx-auto">
+            Whether you are starting your journey, upgrading your skills, or securing
+            your organization — CST Academy is your trusted cybersecurity training
+            partner.
           </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <a
+              href="#services"
+              className="group px-8 py-3 bg-wrlds-blue text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2"
+            >
+              Enroll Now
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </a>
+
+            <a
+              href="#contact"
+              className="px-8 py-3 border border-white/30 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300"
+            >
+              Contact Admissions
+            </a>
+          </div>
         </div>
 
         {/* Card */}

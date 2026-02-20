@@ -7,12 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import FireCatProject from "./pages/FireCatProject";
-import SportRetailProject from "./pages/SportRetailProject";
-import WorkwearProject from "./pages/WorkwearProject";
-import BetterHockeyProject from "./pages/BetterHockeyProject";
-import BergProject from "./pages/BergProject";
-import ReingaugeProject from "./pages/ReingaugeProject";
 import TechDetails from "./pages/TechDetails";
 import DevelopmentProcess from "./pages/DevelopmentProcess";
 import About from "./pages/About";
@@ -22,11 +16,7 @@ import Blog from "./pages/Blog";
 import BlogPostDetail from "./pages/BlogPostDetail";
 import CoursePostDetail from "./pages/CoursePostDetail";
 import Cases from "./pages/Cases";
-import CyberSecurity from "./pages/CyberSecurity";
-import EthicalHacking from "./pages/EthicalHacking";
-import Cehv13 from "./pages/Cehv13";
-import BugBounty from "./pages/BugBounty";
-import AdvancedCyberSecurity from "./pages/AdvancedCyberSecurity";
+import Services from "./pages/Services";
 import Preloader from "./components/Preloader";
 import Cursor from "./components/Cursor";
 import AdminLogin from "./pages/admin/LoginPage";
@@ -54,33 +44,13 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/cases" element={<Cases />} />
             <Route path="/login" element={<AdminLogin />} />
-            
-           <Route
-            path="/admin"
-            element={
-              <AdminProtectedRoute>
-                <AdminLayout />
-              </AdminProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="workshop" element={<AdminWorkshopPage />} />
-            <Route path="contacts" element={<AdminContactPage />} />
-            <Route path="services" element={<AdminServices />} />
-          </Route>
-
-
-             <Route path="/projects/advanced-cyber-security" element={<AdvancedCyberSecurity />} />
-            <Route path="/projects/bug-bounty" element={<BugBounty />} />
-             <Route path="/projects/ethical-hacking" element={<EthicalHacking />} />
-            <Route path="/projects/ceh-v13" element={<Cehv13 />} />
-             <Route path="/projects/cyber-security" element={<CyberSecurity />} />
-            <Route path="/projects/firecat" element={<FireCatProject />} />
-            <Route path="/projects/sport-retail" element={<SportRetailProject />} />
-            <Route path="/projects/workwear" element={<WorkwearProject />} />
-            <Route path="/projects/better-hockey" element={<BetterHockeyProject />} />
-            <Route path="/projects/berg" element={<BergProject />} />
-            <Route path="/projects/reingauge" element={<ReingaugeProject />} />
+            <Route path="/admin" element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="workshop" element={<AdminWorkshopPage />} />
+              <Route path="contacts" element={<AdminContactPage />} />
+              <Route path="services" element={<AdminServices />} />
+            </Route>
+            <Route path="/projects/services" element={<Services />} />
             <Route path="/tech-details" element={<TechDetails />} />
             <Route path="/development-process" element={<DevelopmentProcess />} />
             <Route path="/about" element={<About />} />

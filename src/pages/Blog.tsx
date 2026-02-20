@@ -1,13 +1,14 @@
-import PageLayout from '@/components/PageLayout';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import SEO from '@/components/SEO';
-import BlogPostCard from '@/components/BlogPostCard';
-import { blogPosts } from '@/data/updatedBlogPosts';
-import ThreeBackground from '@/components/ThreeBackground';
-import Safe3D from '@/components/Safe3D';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import PageLayout from "@/components/PageLayout";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
+import BlogPostCard from "@/components/BlogPostCard";
+import ThreeBackground from "@/components/ThreeBackground";
+import Safe3D from "@/components/Safe3D";
 
 const FallbackBackground = () => (
   <div className="absolute inset-0 bg-wrlds-dark overflow-hidden">
@@ -16,102 +17,156 @@ const FallbackBackground = () => (
 );
 
 const Blog = () => {
-  // Get the newest blog post for the featured post section (the new post with id '6')
-  const featuredPost = blogPosts.find(post => post.id === '6') || blogPosts[0];
-  // Get the rest of the blog posts for the grid section
-  const otherPosts = blogPosts.filter(post => post.id !== featuredPost?.id);
-  
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // 🔥 Fetch blogs from API
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await axios.get(
+          "https://cst-acadmay-backend.onrender.com/api/services/blogs"
+        );
+
+        // Sort newest first
+        const sortedBlogs = res.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setBlogPosts(sortedBlogs);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  const featuredPost = blogPosts[0];
+  const otherPosts = blogPosts.slice(1);
+
   return (
     <PageLayout>
-      <SEO 
-        title="WRLDS - News and insights about smart textile technology" 
+      <SEO
+        title="WRLDS - News and insights about smart textile technology"
         description="Stay updated with the latest news and insights about sensor-integrated textiles and smart technology from WRLDS Technologies."
-        imageUrl={featuredPost?.imageUrl || "/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.png"}
-        keywords={['smart textiles', 'textile technology', 'industry news', 'sensor innovation', 'wearable tech', 'smart fabrics']}
+        imageUrl={featuredPost?.imageUrl}
+        keywords={[
+          "smart textiles",
+          "textile technology",
+          "industry news",
+          "sensor innovation",
+          "wearable tech",
+          "smart fabrics",
+        ]}
         type="website"
       />
-      
-      {/* Global starfield background */}
+
+      {/* Background */}
       <div className="fixed inset-0 z-0">
         <Safe3D fallback={<FallbackBackground />}>
           <ThreeBackground />
         </Safe3D>
       </div>
-      
+
       <div className="relative z-10 w-full pt-24 pb-12 text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold font-space mb-4 text-white">
-              WRLDS News & Insights
-            </h1>
-            <p className="text-xl text-gray-300 mb-6">
-              The latest trends and news in sensor-integrated textiles and smart technology
-            </p>
-          </div>
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold font-space mb-4">
+            Blogs
+          </h1>
+          <p className="text-xl text-gray-300">
+            The latest trends and news in sensor-integrated textiles and smart
+            technology
+          </p>
         </div>
       </div>
-      
+
       <div className="relative z-10 container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredPost && (
-            <Link to={`/blog/${featuredPost.slug}`} className="col-span-1 md:col-span-2 lg:col-span-3">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
-                <div className="grid md:grid-cols-2 h-full">
-                  <div 
-                    className="bg-cover bg-center h-64 md:h-full p-8 flex items-center justify-center"
-                    style={{ 
-                      backgroundImage: `url('${featuredPost.imageUrl}')`,
-                      backgroundSize: 'cover',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'center'
-                    }}
-                  >
-                    <div className="text-white text-center bg-black/30 backdrop-blur-sm p-4 rounded-lg">
-                      <span className="px-3 py-1 bg-white/10 rounded-full text-sm font-medium inline-block mb-4">Featured</span>
-                      <h3 className="text-2xl md:text-3xl font-bold">{featuredPost.title}</h3>
+        {loading ? (
+          <div className="text-center text-white text-xl">
+            Loading blogs...
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Featured Blog */}
+            {featuredPost && (
+              <Link
+                to={`/blog/${featuredPost.slug}`}
+                className="col-span-1 md:col-span-2 lg:col-span-3"
+              >
+                <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
+                  <div className="grid md:grid-cols-2 h-full">
+                    <div
+                      className="bg-cover bg-center h-64 md:h-full p-8 flex items-center justify-center"
+                      style={{
+                        backgroundImage: `url('${featuredPost.imageUrl}')`,
+                      }}
+                    >
+                      <div className="text-white text-center bg-black/40 backdrop-blur-sm p-4 rounded-lg">
+                        <span className="px-3 py-1 bg-white/10 rounded-full text-sm font-medium inline-block mb-4">
+                          Featured
+                        </span>
+                        <h3 className="text-2xl md:text-3xl font-bold">
+                          {featuredPost.title}
+                        </h3>
+                      </div>
                     </div>
+
+                    <CardContent className="p-8">
+                      <p className="text-gray-500 text-sm mb-2">
+                        Published:{" "}
+                        {featuredPost.createdAt
+                          ? new Date(
+                              featuredPost.createdAt
+                            ).toLocaleDateString()
+                          : "Recently"}
+                      </p>
+
+                      {/* Render HTML excerpt safely */}
+                      <div
+                        className="text-gray-700 mb-6 line-clamp-4"
+                        dangerouslySetInnerHTML={{
+                          __html: featuredPost.excerpt,
+                        }}
+                      />
+
+                      <Button variant="outline" className="group">
+                        Read more
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    </CardContent>
                   </div>
-                  <CardContent className="p-8">
-                    <p className="text-gray-500 text-sm mb-2">Published: {featuredPost.date}</p>
-                    <p className="text-gray-700 mb-6">
-                      {featuredPost.excerpt}
-                    </p>
-                    <Button variant="outline" className="group">
-                      Read more 
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </CardContent>
-                </div>
-              </Card>
-            </Link>
-          )}
-          
-          {/* Other blog posts */}
-          {otherPosts.map((post) => (
-            <BlogPostCard 
-              key={post.id}
-              title={post.title}
-              excerpt={post.excerpt}
-              imageUrl={post.imageUrl || '/lovable-uploads/48ecf6e2-5a98-4a9d-af6f-ae2265cd4098.png'}
-              date={post.date}
-              slug={post.slug}
-              category={post.category}
-            />
-          ))}
-          
-          {/* If there are fewer than 3 published posts, add placeholders */}
-          {blogPosts.length < 4 && Array.from({ length: Math.max(0, 4 - blogPosts.length) }).map((_, index) => (
-            <BlogPostCard 
-              key={`placeholder-${index}`}
-              title="Upcoming article"
-              excerpt="Stay tuned for more exciting articles about smart textiles and sensor technology."
-              imageUrl={index % 2 === 0 ? "/lovable-uploads/6b0637e9-4a7b-40d0-b219-c8b7f879f93e.png" : "/lovable-uploads/700e27d7-0513-4bfa-8ac4-f7fd6087594c.png"}
-              date="Coming soon"
-              slug="#"
-              category="Upcoming"
-            />
-          ))}
-        </div>
+                </Card>
+              </Link>
+            )}
+
+            {/* Other Blogs */}
+            {otherPosts.map((post) => (
+              <BlogPostCard
+                key={post._id}
+                title={post.title}
+                excerpt={post.excerpt}
+                imageUrl={post.imageUrl}
+                date={
+                  post.createdAt
+                    ? new Date(post.createdAt).toLocaleDateString()
+                    : "Recently"
+                }
+                slug={post.slug}
+                category={post.category}
+              />
+            ))}
+
+            {/* Empty State */}
+            {blogPosts.length === 0 && (
+              <div className="text-white text-center col-span-3">
+                No blogs available
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </PageLayout>
   );

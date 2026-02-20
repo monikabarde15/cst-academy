@@ -4,40 +4,40 @@ import { useState } from 'react';
 
 const sectors = [
     {
-        id: "military",
-        title: "Defense",
-        subtitle: "Mission Critical",
+        id: "Students & Freshers",
+        title: "Students & Freshers",
+        subtitle: "Students & Freshers",
         icon: <Shield className="w-8 h-8 md:w-10 md:h-10 text-white" />,
-        description: "Next-gen tactical awareness and biometric monitoring for high-stakes environments.",
+        description: "Build a strong cybersecurity foundation with practical labs, mentorship, and placement support.",
         gradient: "from-slate-900 to-slate-800",
-        imageUrl: "/lovable-uploads/48ecf6e2-5a98-4a9d-af6f-ae2265cd4098.png"
+       imageUrl: "/sector/2.png"
     },
     {
-        id: "sport",
-        title: "Sport",
-        subtitle: "Elite Performance",
+        id: "Working Professionals",
+        title: "Working Professionals",
+        subtitle: "Working Professionals",
         icon: <Activity className="w-8 h-8 md:w-10 md:h-10 text-white" />,
-        description: "Precision motion tracking embedded in footwear and apparel for professional sports.",
+        description: "Upskill or transition into cybersecurity roles with flexible, advanced training programs.",
         gradient: "from-blue-950 to-slate-900",
-        imageUrl: "/lovable-uploads/1cd5a3da-7a58-4374-abc1-d7b02b0c5fd5.png"
+        imageUrl: "/sector/3.png"
     },
     {
-        id: "leisure",
-        title: "Leisure",
-        subtitle: "Connected Play",
+        id: "Corporate Teams",
+        title: "Corporate Teams",
+        subtitle: "Corporate Teams",
         icon: <Gamepad2 className="w-8 h-8 md:w-10 md:h-10 text-white" />,
-        description: "Invisible technology enhancing gaming, outdoor activities, and daily life.",
+        description: "Customized cybersecurity training to strengthen organizational security awareness and defense capabilities.",
         gradient: "from-indigo-950 to-slate-900",
-        imageUrl: "/lovable-uploads/football-leisure.png"
+       imageUrl: "/sector/4.png"
     },
     {
-        id: "industry",
-        title: "Industry",
-        subtitle: "Smart Manufacturing",
+        id: "Academic Institutions",
+        title: "Academic Institutions",
+        subtitle: "Academic Institutions",
         icon: <Factory className="w-8 h-8 md:w-10 md:h-10 text-white" />,
-        description: "Intelligent workwear and sensor networks for the modern automated workforce.",
+        description: "Industry-aligned programs, workshops, and faculty enablement for colleges and universities.",
         gradient: "from-slate-900 to-gray-900",
-        imageUrl: "/lovable-uploads/078a129e-0f98-4d91-af61-873687db1a04.png"
+        imageUrl: "/sector/5.png"
     }
 ];
 
@@ -53,7 +53,7 @@ const MobileSectorCard = ({ sector }: { sector: typeof sectors[0] }) => {
             />
             
             {/* Gradient Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${sector.gradient} opacity-80`}></div>
+            <div className={`absolute inset-0 bg-gradient-to-r ${sector.gradient} opacity-1000`}></div>
 
             {/* Border */}
             <div className="absolute inset-0 border border-white/10 rounded-2xl pointer-events-none" />
@@ -91,9 +91,10 @@ const Sectors = () => {
                         className="max-w-2xl"
                     >
                         <h2 className="text-4xl md:text-6xl font-bold font-space text-white leading-[0.9] tracking-tighter">
-                            WHERE WE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-wrlds-blue to-white">OPERATE.</span>
+                            Who We  <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-wrlds-blue to-white">Train.</span>
                         </h2>
                     </motion.div>
+                     
                 </div>
 
                 {/* Desktop Accordion Layout */}

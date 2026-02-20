@@ -17,16 +17,16 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = 'WRLDS',
-  description = 'WRLDS Technologies: Pioneering smart engineering solutions with textile sensors for sports, safety, and performance monitoring.',
+  title = 'CST Academy | Cybersecurity Training & Ethical Hacking Institute',
+  description = 'CST Academy offers hands-on cybersecurity training, ethical hacking, SOC analyst courses & corporate security programs. Build a secure career today.',
   type = 'website',
-  name = 'WRLDS Technologies',
-  imageUrl = '/lovable-uploads/48ecf6e2-5a98-4a9d-af6f-ae2265cd4098.png',
+  name = 'CST Academy',
+  imageUrl = '/logo/cstacademylogo.png',
   publishDate,
   modifiedDate,
   author,
   category,
-  keywords = ['smart textiles', 'wearable technology', 'textile sensors', 'sports tech', 'safety monitoring', 'performance analytics'],
+  keywords = ['cybersecurity training for students', 'cybersecurity training for working professionals', 'corporate cybersecurity training', 'penetration testing course', 'information security training'],
   isBlogPost = false
 }) => {
   const location = useLocation();
@@ -37,33 +37,20 @@ const SEO: React.FC<SEOProps> = ({
   const enhancedKeywords = location.pathname.includes('smart-ppe-revolution') 
     ? [
         ...keywords,
-        'personal protective equipment',
-        'workplace safety solutions',
-        'smart safety gear',
-        'construction safety technology',
-        'industrial safety monitoring',
-        'occupational health technology',
-        'safety compliance',
-        'worker protection systems',
-        'smart hard hats',
-        'connected safety equipment'
+        'best cybersecurity training institute',
+        'ethical hacking course for beginners',
+        'SOC analyst training with hands-on labs',
+        'cybersecurity career training institute',
+        'cybersecurity certification training',
       ]
     : location.pathname.includes('wearable-safety-tech-protecting-workers-roi')
     ? [
         ...keywords,
-        'workplace injury costs',
-        'safety ROI',
-        'workers compensation savings',
-        'ergonomic sensors',
-        'workplace safety investment',
-        'safety technology ROI',
-        'industrial wearables',
-        'safety cost reduction',
-        'occupational safety economics',
-        'safety technology partnerships',
-        'workplace injury statistics',
-        'safety equipment financing',
-        'injury prevention technology'
+        'best cybersecurity training institute',
+        'ethical hacking course for beginners',
+        'SOC analyst training with hands-on labs',
+        'cybersecurity career training institute',
+        'cybersecurity certification training',
       ]
     : keywords;
 
@@ -71,7 +58,7 @@ const SEO: React.FC<SEOProps> = ({
   const organizationStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'WRLDS Technologies',
+    name: 'CST Academy',
     url: 'https://wrlds.com',
     logo: 'https://wrlds.com/lovable-uploads/14ea3fe0-19d6-425c-b95b-4117bc41f3ca.png',
     description: 'Pioneering smart engineering solutions with textile sensors',
@@ -110,7 +97,7 @@ const SEO: React.FC<SEOProps> = ({
     },
     publisher: {
       '@type': 'Organization',
-      name: 'WRLDS Technologies',
+      name: 'CST Academy',
       logo: {
         '@type': 'ImageObject',
         url: 'https://wrlds.com/lovable-uploads/14ea3fe0-19d6-425c-b95b-4117bc41f3ca.png',

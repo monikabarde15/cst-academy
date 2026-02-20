@@ -13,7 +13,7 @@ const Hero = () => {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] 2xl:text-[7rem] font-bold font-space tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 leading-[0.9]"
           >
-            BUILD <br /> BEYOND
+            Secure the Future. 
           </motion.h1>
           <motion.h1
             initial={{ opacity: 0, y: 50, filter: 'blur(20px)' }}
@@ -21,7 +21,7 @@ const Hero = () => {
             transition={{ delay: 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] 2xl:text-[7rem] font-bold font-space tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-wrlds-blue to-wrlds-blue/50 leading-[0.9]"
           >
-            BOUNDARIES
+          Build Your Cybersecurity Career.  
           </motion.h1>
         </div>
 
@@ -29,9 +29,10 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="text-xl md:text-2xl font-light text-wrlds-muted max-w-2xl mx-auto mb-16 leading-relaxed text-center px-6"
+          className="text-xl md:text-2xl font-light text-wrlds-muted max-w-7xl mx-auto mb-16 leading-relaxed text-center px-6"
         >
-          We build connected products from concept to commercial success.
+          CST Academy is a premier cybersecurity training institute delivering hands-on, industry-aligned programs for students, working professionals, and corporate teams.
+Train on real tools, learn from experienced security professionals, and become job-ready for today’s high-demand cybersecurity roles.
         </motion.p>
 
         <motion.div
@@ -45,7 +46,7 @@ const Hero = () => {
             className="group relative px-10 py-5 bg-white text-black font-bold text-lg rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:bg-wrlds-blue hover:text-white shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(0,102,204,0.6)]"
           >
             <span className="relative flex items-center gap-3">
-              Start Project <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Explore Courses <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
           </a>
           <a
@@ -56,7 +57,7 @@ const Hero = () => {
               document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            Explore Cases
+            Book Free Career
           </a>
         </motion.div>
 

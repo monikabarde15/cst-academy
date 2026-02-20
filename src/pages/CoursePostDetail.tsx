@@ -1,63 +1,73 @@
-import { useParams } from 'react-router-dom';
-import { updatedCourses } from '@/data/updatedCourses';
-import { cyberBlogs } from "@/data/cyberBlogs";
-import { EthicalHacking } from "@/data/EthicalHacking";
-import { BugBunty } from '@/data/BugBunty';
-import { Cehv13 } from '@/data/Cehv13';
+import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
+import PageLayout from "@/components/PageLayout";
+import SEO from "@/components/SEO";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
-import PageLayout from '@/components/PageLayout';
-import SEO from '@/components/SEO';
-import EnhancedBlogContent from '@/components/EnhancedBlogContent';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import ThreeBackground from '@/components/ThreeBackground';
-import Safe3D from '@/components/Safe3D';
-
-const FallbackBackground = () => (
-  <div className="absolute inset-0 bg-wrlds-dark overflow-hidden">
-    <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-wrlds-blue/10 rounded-full blur-[150px] animate-pulse-slow"></div>
-  </div>
-);
+interface Post {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author?: string;
+  date?: string;
+  imageUrl?: string;
+}
 
 const CoursePostDetail = () => {
   const { slug } = useParams<{ slug: string }>();
 
-const simplePost = cyberBlogs.find(
-  (blog) => blog.slug === slug
-);
+  const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
 
-const Cehv13Post = Cehv13.find(
-  (Cehv13) => Cehv13.slug === slug
-);
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        if (!slug) return;
 
+        const response = await axios.get(
+          `https://cst-acadmay-backend.onrender.com/api/services/detail/${slug}`
+        );
 
-const BugBuntyPost = BugBunty.find(
-  (BugBuntys) => BugBuntys.slug === slug
-);
+        if (response.data.success) {
+          setPost(response.data.data);
+        } else {
+          setPost(null);
+        }
 
-const EthicalHackingPost = EthicalHacking.find(
-  (BugBuEthicalHackingntys) => BugBuEthicalHackingntys.slug === slug
-);
+      } catch (error) {
+        console.error("Error fetching post:", error);
+        setPost(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-const advancedPost = updatedCourses.find(
-  (course) => course.slug === slug
-);
+    fetchPost();
+  }, [slug]);
 
-const post = simplePost || advancedPost || BugBuntyPost || EthicalHackingPost || Cehv13Post;
-
-
+  if (loading) {
+    return (
+      <PageLayout>
+        <div className="text-center py-20">Loading...</div>
+      </PageLayout>
+    );
+  }
 
   if (!post) {
     return (
       <PageLayout>
-        <div className="container mx-auto px-4 py-16 text-center">
+        <div className="text-center py-20">
           <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
           <Link to="/blog">
             <Button variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Blog
+              Back
             </Button>
           </Link>
         </div>
@@ -69,10 +79,8 @@ const post = simplePost || advancedPost || BugBuntyPost || EthicalHackingPost ||
     <PageLayout>
       <SEO
         title={`${post.title} - WRLDS`}
-        description={post.content || post.excerpt}
+        description={post.excerpt}
         imageUrl={post.imageUrl}
-        keywords={post.keywords}
-        isBlogPost
         publishDate={post.date}
         author={post.author}
         category={post.category}
@@ -81,7 +89,7 @@ const post = simplePost || advancedPost || BugBuntyPost || EthicalHackingPost ||
 
       <article className="relative z-10 w-full">
 
-        {/* HERO SECTION */}
+        {/* HERO */}
         <div className="relative min-h-[80vh] flex items-center">
 
           {post.imageUrl && (
@@ -91,7 +99,7 @@ const post = simplePost || advancedPost || BugBuntyPost || EthicalHackingPost ||
                 alt={post.title}
                 className="absolute inset-0 w-full h-full object-cover opacity-60"
               />
-              <div className="absolute inset-0 bg-black/4" />
+              <div className="absolute inset-0 bg-black/40" />
             </div>
           )}
 
@@ -102,7 +110,7 @@ const post = simplePost || advancedPost || BugBuntyPost || EthicalHackingPost ||
               className="inline-flex items-center text-white/60 hover:text-white mb-8"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to News
+              Back
             </Link>
 
             <span className="px-4 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs uppercase">
@@ -121,22 +129,21 @@ const post = simplePost || advancedPost || BugBuntyPost || EthicalHackingPost ||
               <span>{post.date}</span>
               <span>{post.author}</span>
             </div>
+
           </div>
         </div>
 
-        {/* CONTENT SECTION */}
+        {/* CONTENT */}
         <div className="container mx-auto px-6 py-16 max-w-3xl">
           <div
-  className="prose prose-invert max-w-none"
-  dangerouslySetInnerHTML={{ __html: post.content }}
-/>
-
+            className="prose prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </div>
 
       </article>
     </PageLayout>
   );
 };
-
 
 export default CoursePostDetail;

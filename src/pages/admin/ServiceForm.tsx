@@ -161,6 +161,7 @@ const ServiceForm = ({ existingData, onSuccess }) => {
         <option value="">Select Type</option>
         <option value="blog">Blog</option>
         <option value="course">Course</option>
+        <option value="article">Articles</option>
       </select>
       {errors.type && <p className="text-red-500 text-sm">{errors.type}</p>}
 
