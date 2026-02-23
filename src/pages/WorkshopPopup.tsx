@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 const WorkshopPopup = ({
   isOpen,
   onClose,
   title = "Workshop on 21st Feb. Seats are limited.",
-  targetDate = "2026-02-21T18:00:00",
   points = [
     "Live practical session",
     "Certificate after workshop",
@@ -13,243 +11,119 @@ const WorkshopPopup = ({
     "Learn directly from experts",
   ],
 }) => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-  });
 
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
-  // ================= TIMER =================
-  const calculateTimeLeft = () => {
-    const difference = new Date(targetDate) - new Date();
-    if (difference <= 0) return null;
-
-    return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    };
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  // ================= RUNNING TIMER =================
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+    if (!isOpen) return;
+
+    const interval = setInterval(() => {
+      setElapsedSeconds((prev) => prev + 1);
     }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
-  // ================= HANDLE CHANGE =================
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    return () => clearInterval(interval);
+  }, [isOpen]);
 
-    setErrors({
-      ...errors,
-      [e.target.name]: "",
-    });
-  };
+  const hours = String(Math.floor(elapsedSeconds / 3600)).padStart(2, "0");
+  const minutes = String(Math.floor((elapsedSeconds % 3600) / 60)).padStart(2, "0");
+  const seconds = String(elapsedSeconds % 60).padStart(2, "0");
 
-  // ================= VALIDATION =================
-  const validate = () => {
-    let newErrors = {};
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required";
+  // ================= BODY SCROLL LOCK =================
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
     }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
-    ) {
-      newErrors.email = "Invalid email format";
-    }
-
-    if (formData.phone && !/^[0-9]{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone must be 10 digits";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // ================= SUBMIT =================
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-
-    if (!validate()) return;
-
-    try {
-      setLoading(true);
-
-      const res = await axios.post(
-        "https://cst-acadmay-backend.onrender.com/api/workshop-register",
-        formData
-      );
-
-      if (res.data.success) {
-        setMessage("✅ Registration Successful!");
-
-        // 🔥 Save flag so popup doesn't appear again
-        localStorage.setItem("workshopRegistered", "true");
-
-        setFormData({
-          firstName: "",
-          lastName: "",
-          phone: "",
-          email: "",
-        });
-
-        setTimeout(() => {
-          onClose();
-        }, 2000);
-      }
-    } catch (error) {
-      if (error.response?.data?.message) {
-        setMessage("❌ " + error.response.data.message);
-      } else {
-        setMessage("❌ Something went wrong. Try again.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-      <div className="bg-[#0f172a] border border-blue-500/20 rounded-2xl shadow-2xl w-full max-w-5xl relative p-8 grid md:grid-cols-2 gap-10 text-white">
+    <div className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-md overflow-y-auto">
 
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"
-        >
-          ✕
-        </button>
+      {/* FLEX CENTER WRAPPER */}
+      <div className="min-h-screen flex items-center justify-center p-4">
 
-        {/* LEFT SIDE */}
-        <div>
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-blue-400">
-            {title}
-          </h2>
+        <div className="relative w-full max-w-5xl 
+        bg-gradient-to-br from-[#0b1220] to-[#111c34]
+        rounded-2xl shadow-2xl border border-blue-500/20
+        grid grid-cols-1 md:grid-cols-2 gap-8
+        p-6 md:p-10">
 
-          {timeLeft && (
-            <div className="flex gap-4 mb-6 flex-wrap">
-              {["days", "hours", "minutes", "seconds"].map((unit) => (
-                <div
-                  key={unit}
-                  className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl px-5 py-4 text-center min-w-[80px]"
-                >
-                  <div className="text-2xl font-bold">
-                    {timeLeft[unit]}
-                  </div>
-                  <div className="text-xs uppercase opacity-80">
-                    {unit}
-                  </div>
-                </div>
-              ))}
+          {/* CLOSE */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"
+          >
+            ✕
+          </button>
+
+          {/* LEFT */}
+          <div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-400 mb-6">
+              {title}
+            </h2>
+
+            {/* TIMER */}
+            <div className="flex justify-center md:justify-start mb-8">
+              <div className="bg-green-600 px-6 sm:px-10 py-4 sm:py-5 
+              rounded-xl text-2xl sm:text-3xl md:text-4xl 
+              font-bold tracking-widest text-white">
+                {hours} : {minutes} : {seconds}
+              </div>
             </div>
-          )}
 
-          <ul className="space-y-3">
-            {points.map((point, index) => (
-              <li key={index} className="flex items-center gap-2 text-gray-300">
-                <span className="text-blue-400">✔</span> {point}
-              </li>
-            ))}
-          </ul>
-        </div>
+            <ul className="space-y-3 text-gray-300 text-sm sm:text-base">
+              {points.map((point, index) => (
+                <li key={index} className="flex gap-2">
+                  <span className="text-blue-400">✔</span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {/* RIGHT SIDE FORM */}
-        <div>
-          <h3 className="text-xl font-semibold mb-6">
-            Register Now
-          </h3>
+          {/* RIGHT FORM */}
+          <div>
+            <h3 className="text-lg sm:text-xl font-semibold mb-6 text-white">
+              Register Now
+            </h3>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-
-            <div>
+            <div className="space-y-4">
               <input
                 type="text"
-                name="firstName"
                 placeholder="First Name *"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full bg-[#1e293b] border border-gray-700 rounded-lg px-4 py-3"
+                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              {errors.firstName && (
-                <p className="text-red-400 text-sm mt-1">
-                  {errors.firstName}
-                </p>
-              )}
-            </div>
-
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="w-full bg-[#1e293b] border border-gray-700 rounded-lg px-4 py-3"
-            />
-
-            <div>
+              <input
+                type="text"
+                placeholder="Last Name"
+                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
               <input
                 type="tel"
-                name="phone"
                 placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full bg-[#1e293b] border border-gray-700 rounded-lg px-4 py-3"
+                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              {errors.phone && (
-                <p className="text-red-400 text-sm mt-1">
-                  {errors.phone}
-                </p>
-              )}
-            </div>
-
-            <div>
               <input
                 type="email"
-                name="email"
                 placeholder="Email *"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full bg-[#1e293b] border border-gray-700 rounded-lg px-4 py-3"
+                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              {errors.email && (
-                <p className="text-red-400 text-sm mt-1">
-                  {errors.email}
-                </p>
-              )}
+
+              <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-all">
+                SUBMIT
+              </button>
             </div>
+          </div>
 
-            {message && (
-              <p className="text-sm mt-2">{message}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-all"
-            >
-              {loading ? "Submitting..." : "SUBMIT"}
-            </button>
-          </form>
         </div>
+
       </div>
     </div>
   );

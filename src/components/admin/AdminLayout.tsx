@@ -72,23 +72,37 @@ const AdminLayout = () => {
       )}
 
       {/* Sidebar */}
-      <aside
-        className={`${
-          collapsed ? "w-20" : "w-64"
-        } bg-[#0B1C3D] transition-all duration-300 flex-shrink-0
-        fixed md:relative top-0 left-0 h-screen z-50
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-        md:translate-x-0`}
-      >
-        <div className="flex flex-col h-full p-6">
+     <aside
+  className={`${
+    collapsed ? "w-20" : "w-64"
+  } bg-[#0B1C3D] flex-shrink-0
+  transition-all duration-300
+  fixed lg:relative top-0 left-0 h-screen z-50
+  transform transition-transform duration-300
+  ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+  lg:translate-x-0`}
+>
+        <div className="flex flex-col h-full p-6 relative">
 
           {/* Collapse */}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:block text-gray-400 mb-6 hover:text-white"
-          >
-            {collapsed ? "»" : "«"}
-          </button>
+         <div className="flex items-center justify-between mb-6">
+
+    {/* Collapse button (Desktop only) */}
+    <button
+      onClick={() => setCollapsed(!collapsed)}
+      className="hidden lg:block text-gray-400 hover:text-white"
+    >
+      {collapsed ? "»" : "«"}
+    </button>
+
+    {/* Close button (Mobile + Tablet only) */}
+    <button
+      onClick={() => setSidebarOpen(false)}
+      className="lg:hidden text-gray-400 hover:text-white text-xl"
+    >
+      ✕
+    </button>
+  </div>
 
           {/* Logo */}
           <div className="mb-10 flex justify-center">
@@ -122,7 +136,7 @@ const AdminLayout = () => {
         <header className={`${darkMode ? "bg-[#112B5A]" : "bg-white"} px-8 py-4 flex items-center justify-between border-b ${darkMode ? "border-[#1E3A8A]" : "border-gray-200"}`}>
 
           <div className="flex items-center gap-4">
-            <button className="md:hidden" onClick={() => setSidebarOpen(true)}>
+            <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
               <Menu />
             </button>
 

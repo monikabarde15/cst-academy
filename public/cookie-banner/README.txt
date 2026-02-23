@@ -80,8 +80,8 @@ silktideCookieBannerManager.updateCookieBannerConfig({
     preferences: {
       title: "Customize your cookie preferences",
       description: "<p>We respect your right to privacy. You can choose not to allow some types of cookies. Your cookie preferences will apply across our website.</p>",
-      creditLinkText: "Get this banner for free",
-      creditLinkAccessibleLabel: "Get this banner for free"
+      creditLinkText: "Hello",
+      creditLinkAccessibleLabel: "Hello"
     }
   }
 });
