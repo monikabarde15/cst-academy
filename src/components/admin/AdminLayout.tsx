@@ -8,7 +8,7 @@ import {
   Menu,
   Sun,
   Moon,
-  Mail
+  Mail,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -61,48 +61,50 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className={`${darkMode ? "bg-[#0B1C3D] text-white" : "bg-[#F4F7FB] text-gray-900"} flex min-h-screen`}>
-
+    <div
+      className={`${
+        darkMode
+          ? "bg-[#0B1C3D] text-white"
+          : "bg-[#F4F7FB] text-gray-900"
+      } flex h-screen overflow-hidden`}
+    >
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/40 md:hidden z-40"
+          className="fixed inset-0 bg-black/40 lg:hidden z-40"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-     <aside
-  className={`${
-    collapsed ? "w-20" : "w-64"
-  } bg-[#0B1C3D] flex-shrink-0
-  transition-all duration-300
-  fixed lg:relative top-0 left-0 h-screen z-50
-  transform transition-transform duration-300
-  ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-  lg:translate-x-0`}
->
-        <div className="flex flex-col h-full p-6 relative">
+      <aside
+        className={`
+        fixed lg:relative top-0 left-0 h-screen z-50
+        ${collapsed ? "w-20" : "w-64"}
+        bg-[#0B1C3D] transition-all duration-300
+        transform
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        lg:translate-x-0
+      `}
+      >
+        <div className="flex flex-col h-full p-6">
 
-          {/* Collapse */}
-         <div className="flex items-center justify-between mb-6">
+          {/* Toggle */}
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="hidden lg:block text-gray-400 hover:text-white"
+            >
+              {collapsed ? "»" : "«"}
+            </button>
 
-    {/* Collapse button (Desktop only) */}
-    <button
-      onClick={() => setCollapsed(!collapsed)}
-      className="hidden lg:block text-gray-400 hover:text-white"
-    >
-      {collapsed ? "»" : "«"}
-    </button>
-
-    {/* Close button (Mobile + Tablet only) */}
-    <button
-      onClick={() => setSidebarOpen(false)}
-      className="lg:hidden text-gray-400 hover:text-white text-xl"
-    >
-      ✕
-    </button>
-  </div>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden text-gray-400 hover:text-white text-xl"
+            >
+              ✕
+            </button>
+          </div>
 
           {/* Logo */}
           <div className="mb-10 flex justify-center">
@@ -114,29 +116,39 @@ const AdminLayout = () => {
           </div>
 
           {/* Menu */}
-          <div className="space-y-2">
+          <div className="space-y-2 flex-1">
             {menuItem("/admin/dashboard", "Dashboard", LayoutDashboard)}
             {menuItem("/admin/workshop", "Workshop", BookOpen)}
             {menuItem("/admin/contacts", "Contacts", Mail)}
-             {menuItem("/admin/services", "Services", Users)}
-              {/* {menuItem("/admin/users", "Users", Users)} */}
-            {menuItem("/admin/settings", "Settings", Settings)}
+            {menuItem("/admin/services", "Services", Users)}
+            {menuItem("/admin/cms-popup-setting", "Settings", Settings)}
           </div>
 
-          <div className="mt-auto text-xs text-gray-400 text-center">
+          <div className="text-xs text-gray-400 text-center">
             © 2026 CST Academy
           </div>
         </div>
       </aside>
 
-      {/* Main */}
-      <div className="flex-1 flex flex-col">
-
+      {/* Main Area */}
+      <div
+        className={`
+        flex-1 flex flex-col
+      `}
+      >
         {/* Header */}
-        <header className={`${darkMode ? "bg-[#112B5A]" : "bg-white"} px-8 py-4 flex items-center justify-between border-b ${darkMode ? "border-[#1E3A8A]" : "border-gray-200"}`}>
-
+        <header
+          className={`${
+            darkMode ? "bg-[#112B5A]" : "bg-white"
+          } px-6 py-4 flex items-center justify-between border-b ${
+            darkMode ? "border-[#1E3A8A]" : "border-gray-200"
+          }`}
+        >
           <div className="flex items-center gap-4">
-            <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
+            <button
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+            >
               <Menu />
             </button>
 
@@ -149,7 +161,6 @@ const AdminLayout = () => {
           </div>
 
           <div className="flex items-center gap-6">
-
             <button onClick={() => setDarkMode(!darkMode)}>
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
@@ -163,7 +174,13 @@ const AdminLayout = () => {
               </div>
 
               {profileOpen && (
-                <div className={`${darkMode ? "bg-[#112B5A] text-white border-[#1E3A8A]" : "bg-white text-gray-800 border-gray-200"} absolute right-0 mt-3 w-48 shadow-lg rounded-lg border overflow-hidden`}>
+                <div
+                  className={`absolute right-0 mt-3 w-48 shadow-lg rounded-lg border overflow-hidden ${
+                    darkMode
+                      ? "bg-[#112B5A] text-white border-[#1E3A8A]"
+                      : "bg-white text-gray-800 border-gray-200"
+                  }`}
+                >
                   <div
                     onClick={() => navigate("/admin/profile")}
                     className="px-4 py-3 text-sm hover:bg-[#1E3A8A] hover:text-white cursor-pointer"
@@ -188,9 +205,8 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        {/* Content */}
-        <main className="flex-1 p-8">
-
+        {/* Scrollable Content */}
+        <main className="flex-1 overflow-y-auto p-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -202,7 +218,6 @@ const AdminLayout = () => {
               <Outlet />
             </motion.div>
           </AnimatePresence>
-
         </main>
       </div>
     </div>

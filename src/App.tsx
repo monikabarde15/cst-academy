@@ -25,6 +25,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminWorkshopPage from "./pages/admin/AdminWorkshopPage";
 import AdminContactPage from "./pages/admin/AdminContactPage";
 import AdminServices from "./pages/admin/AdminServices";
+import CMSPopupSetting from "./pages/admin/CMSPopupSetting";
 
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
@@ -47,6 +48,7 @@ const App = () => {
             <Route path="/admin" element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="workshop" element={<AdminWorkshopPage />} />
+              <Route path="cms-popup-setting" element={<CMSPopupSetting />} />
               <Route path="contacts" element={<AdminContactPage />} />
               <Route path="services" element={<AdminServices />} />
             </Route>

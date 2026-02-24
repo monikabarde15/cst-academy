@@ -1,129 +1,263 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 
-const WorkshopPopup = ({
-  isOpen,
-  onClose,
-  title = "Workshop on 21st Feb. Seats are limited.",
-  points = [
-    "Live practical session",
-    "Certificate after workshop",
-    "Career guidance included",
-    "Learn directly from experts",
-  ],
-}) => {
-
-  // ================= RUNNING TIMER =================
+const WorkshopPopup = ({ isOpen, onClose }) => {
+  const [cmsData, setCmsData] = useState(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [loading, setLoading] = useState(false);
 
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  /* ================= FETCH CMS ================= */
   useEffect(() => {
-    if (!isOpen) return;
+    const fetchCMS = async () => {
+      try {
+        const res = await axios.get(
+          "https://cst-acadmay-backend.onrender.com/api/cms-popup"
+        );
+
+        if (res.data.success && res.data.data) {
+          const data = res.data.data;
+
+          const totalSeconds =
+            Number(data.hours) * 3600 +
+            Number(data.minutes) * 60 +
+            Number(data.seconds);
+
+          setElapsedSeconds(totalSeconds);
+          setCmsData(data);
+        }
+      } catch (error) {
+        console.log("CMS Fetch Error:", error);
+      }
+    };
+
+    fetchCMS();
+  }, []);
+
+  /* ================= TIMER ================= */
+  useEffect(() => {
+    if (!isOpen || !cmsData?.enabled) return;
 
     const interval = setInterval(() => {
-      setElapsedSeconds((prev) => prev + 1);
+      setElapsedSeconds((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isOpen]);
+  }, [isOpen, cmsData]);
 
-  const hours = String(Math.floor(elapsedSeconds / 3600)).padStart(2, "0");
-  const minutes = String(Math.floor((elapsedSeconds % 3600) / 60)).padStart(2, "0");
-  const seconds = String(elapsedSeconds % 60).padStart(2, "0");
-
-  // ================= BODY SCROLL LOCK =================
+  /* ================= BODY SCROLL LOCK ================= */
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !cmsData?.enabled) return null;
+
+  const hours = String(Math.floor(elapsedSeconds / 3600)).padStart(2, "0");
+  const minutes = String(
+    Math.floor((elapsedSeconds % 3600) / 60)
+  ).padStart(2, "0");
+  const seconds = String(elapsedSeconds % 60).padStart(2, "0");
+
+  /* ================= VALIDATION ================= */
+  const validate = () => {
+    let newErrors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (formData.phone && !/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Phone must be 10 digits";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  /* ================= HANDLE FORM ================= */
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+    });
+  };
+
+  const handleSubmit = async () => {
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post(
+        "https://cst-acadmay-backend.onrender.com/api/workshop-register",
+        formData
+      );
+
+      if (res.data.success) {
+        toast.success("Registration Successful 🎉");
+
+        setFormData({
+          firstName: "",
+          lastName: "",
+          phone: "",
+          email: "",
+        });
+
+        onClose();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error("Registration Failed ❌");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-md overflow-y-auto">
-
-      {/* FLEX CENTER WRAPPER */}
-      <div className="min-h-screen flex items-center justify-center p-4">
-
-        <div className="relative w-full max-w-5xl 
-        bg-gradient-to-br from-[#0b1220] to-[#111c34]
-        rounded-2xl shadow-2xl border border-blue-500/20
-        grid grid-cols-1 md:grid-cols-2 gap-8
-        p-6 md:p-10">
+    <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md overflow-y-auto">
+      <div className="min-h-screen w-full flex justify-center px-3 py-6">
+        <div className="relative w-full max-w-5xl bg-gradient-to-br from-[#0f172a] to-[#111827] rounded-2xl sm:rounded-3xl shadow-2xl border border-blue-500/20 grid grid-cols-1 lg:grid-cols-2 overflow-hidden my-auto">
 
           {/* CLOSE */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"
+            className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-20"
           >
             ✕
           </button>
 
           {/* LEFT */}
-          <div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-400 mb-6">
-              {title}
+          <div className="p-5 sm:p-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+              {cmsData.title}
             </h2>
 
-            {/* TIMER */}
-            <div className="flex justify-center md:justify-start mb-8">
-              <div className="bg-green-600 px-6 sm:px-10 py-4 sm:py-5 
-              rounded-xl text-2xl sm:text-3xl md:text-4xl 
-              font-bold tracking-widest text-white">
+            {cmsData.image && (
+              <div className="mt-5">
+                <img
+                  src={cmsData.image}
+                  alt="Workshop"
+                  className="w-full h-48 sm:h-64 object-cover rounded-xl"
+                />
+              </div>
+            )}
+
+            <div className="mt-6">
+              <div className="bg-blue-600/20 border border-blue-500 px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-lg sm:text-2xl font-bold text-blue-400 tracking-widest text-center sm:text-left">
                 {hours} : {minutes} : {seconds}
               </div>
             </div>
 
-            <ul className="space-y-3 text-gray-300 text-sm sm:text-base">
-              {points.map((point, index) => (
-                <li key={index} className="flex gap-2">
-                  <span className="text-blue-400">✔</span>
-                  {point}
-                </li>
-              ))}
-            </ul>
+            <p className="mt-6 text-gray-400 whitespace-pre-line">
+              {cmsData.description}
+            </p>
           </div>
 
           {/* RIGHT FORM */}
-          <div>
-            <h3 className="text-lg sm:text-xl font-semibold mb-6 text-white">
+          <div className="bg-[#0b1220] p-5 sm:p-8">
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-6">
               Register Now
             </h3>
 
             <div className="space-y-4">
+
+              {/* First Name */}
+              <div>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="First Name *"
+                  className="w-full bg-[#1f2937] border border-gray-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                {errors.firstName && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.firstName}
+                  </p>
+                )}
+              </div>
+
+              {/* Last Name */}
               <input
                 type="text"
-                placeholder="First Name *"
-                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 placeholder="Last Name"
-                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="email"
-                placeholder="Email *"
-                className="w-full bg-[#1a2438] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-[#1f2937] border border-gray-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none"
               />
 
-              <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-all">
-                SUBMIT
+              {/* Phone */}
+              <div>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  className="w-full bg-[#1f2937] border border-gray-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                {errors.phone && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.phone}
+                  </p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email *"
+                  className="w-full bg-[#1f2937] border border-gray-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                {errors.email && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg"
+              >
+                {loading ? "Submitting..." : "SUBMIT"}
               </button>
+
             </div>
           </div>
 
         </div>
-
       </div>
     </div>
   );

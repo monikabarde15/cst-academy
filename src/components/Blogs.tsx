@@ -162,7 +162,7 @@ const Blogs = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 relative z-20">
+    <section className="py-1 md:py-1 relative z-20">
       {/* Header */}
       <div className="container px-6 mb-10">
         <div className="flex items-center justify-between">

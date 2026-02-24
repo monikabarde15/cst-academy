@@ -63,7 +63,7 @@ const [showPopup, setShowPopup] = useState(false);
         <WhyUs />
 
         {/* University Collaboration Section */}
-     <section className="py-20 bg-transparent relative z-20">
+     <section className="py-1 bg-transparent relative z-20">
       <div className="container px-6">
 
         {/* Heading */}

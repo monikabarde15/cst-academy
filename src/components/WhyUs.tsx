@@ -31,7 +31,7 @@ const reasons = [
 
 const WhyUs = () => {
     return (
-        <section className="py-24 relative overflow-hidden bg-transparent">
+        <section className="py-1 relative overflow-hidden bg-transparent">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 

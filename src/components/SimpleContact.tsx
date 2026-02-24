@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Mail, Linkedin, ArrowRight, Loader2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { Phone, Mail, MapPin } from "lucide-react";
 import axios from "axios";
 
-const SimpleContact = () => {
+const ContactSection = () => {
   const [formData, setFormData] = useState({
     firstName: "",
+    lastName: "",
     email: "",
     phone: "",
-    service: "",
+    subject: "",
     message: "",
   });
 
@@ -35,7 +35,6 @@ const SimpleContact = () => {
 
     try {
       setLoading(true);
-
       const res = await axios.post(
         "https://cst-acadmay-backend.onrender.com/api/contact",
         formData
@@ -45,9 +44,10 @@ const SimpleContact = () => {
         setSuccess(true);
         setFormData({
           firstName: "",
+          lastName: "",
           email: "",
           phone: "",
-          service: "",
+          subject: "",
           message: "",
         });
       }
@@ -59,154 +59,146 @@ const SimpleContact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 relative z-20">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="py-20 px-4">
+      <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-       <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-4"
-          >
-            Let's Build{" "}
-            <span className="text-wrlds-blue">
-              Your Cybersecurity Future
-            </span>
-          </motion.h2>
+        <div className="rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
 
-          <p className="text-white/60 text-sm max-w-xl mx-auto">
-            Whether you are starting your journey, upgrading your skills, or securing
-            your organization — CST Academy is your trusted cybersecurity training
-            partner.
-          </p>
+          <div className="grid md:grid-cols-2">
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <a
-              href="#services"
-              className="group px-8 py-3 bg-wrlds-blue text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2"
-            >
-              Enroll Now
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </a>
+            {/* LEFT SIDE */}
+            <div className="p-12 bg-[#0b1224] text-white">
+              <h2 className="text-3xl font-bold mb-4">
+                Contact Information
+              </h2>
+              <p className="text-white/60 mb-10">
+                Say something to start a live chat!
+              </p>
 
-            <a
-              href="#contact"
-              className="px-8 py-3 border border-white/30 text-white font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300"
-            >
-              Contact Admissions
-            </a>
-          </div>
-        </div>
+              <div className="space-y-6 text-white/80">
+                <div className="flex items-center gap-4">
+                  <Phone className="w-5 h-5 text-wrlds-blue" />
+                  +91-8210543772
+                </div>
 
-        {/* Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          whileHover={{ y: -5 }}
-          className="max-w-lg mx-auto"
-        >
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8">
+                <div className="flex items-center gap-4">
+                  <Mail className="w-5 h-5 text-wrlds-blue" />
+                  info@cybite.in
+                </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="flex items-start gap-4">
+                  <MapPin className="w-5 h-5 mt-1 text-wrlds-blue" />
+                  <span>
+                    G-9/85, Sangam Vihar <br />
+                    New Delhi-110080
+                  </span>
+                </div>
+              </div>
+            </div>
 
-              {/* Name */}
-              <input
-                type="text"
-                name="firstName"
-                placeholder="Full Name *"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-wrlds-blue focus:ring-2 focus:ring-wrlds-blue/30"
-              />
+            {/* RIGHT SIDE */}
+            <div className="p-12 bg-gradient-to-br from-[#0f1a35] to-[#111c3d] text-white">
 
-              {/* Email */}
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address *"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-wrlds-blue focus:ring-2 focus:ring-wrlds-blue/30"
-              />
+              <form onSubmit={handleSubmit} className="space-y-8">
 
-              {/* Phone */}
-              <input
-                type="text"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-wrlds-blue focus:ring-2 focus:ring-wrlds-blue/30"
-              />
-             
+                {/* Name */}
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className="bg-transparent border-b border-white/30 focus:border-wrlds-blue outline-none pb-2"
+                  />
 
-              {/* Message */}
-              <textarea
-                rows="4"
-                name="message"
-                placeholder="Your Message *"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-wrlds-blue resize-none"
-              ></textarea>
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className="bg-transparent border-b border-white/30 focus:border-wrlds-blue outline-none pb-2"
+                  />
+                </div>
 
-              {/* Error */}
-              {error && (
-                <p className="text-red-400 text-sm">{error}</p>
-              )}
+                {/* Email + Phone */}
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="bg-transparent border-b border-white/30 focus:border-wrlds-blue outline-none pb-2"
+                  />
 
-              {/* Success */}
-              {success && (
-                <p className="text-green-400 text-sm">
-                  ✅ Message sent successfully!
-                </p>
-              )}
+                  <input
+                    type="text"
+                    name="phone"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="bg-transparent border-b border-white/30 focus:border-wrlds-blue outline-none pb-2"
+                  />
+                </div>
 
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="group flex items-center justify-center gap-3 w-full py-4 bg-wrlds-blue text-white font-bold rounded-full hover:bg-white hover:text-black transition-all disabled:opacity-70"
-              >
-                {loading ? (
-                  <Loader2 className="animate-spin w-5 h-5" />
-                ) : (
-                  <>
-                    Send Message
-                    <ArrowRight className="w-4 h-4 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                  </>
+                {/* Subject */}
+                <div>
+                  <p className="mb-3 text-white/60">Select Subject?</p>
+                  <div className="flex flex-wrap gap-6 text-sm">
+                    {["UI/UX Design", "Development", "Cyber Security", "Training", "Digital Marketing"].map((item) => (
+                      <label key={item} className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="subject"
+                          value={item}
+                          onChange={handleChange}
+                          className="accent-wrlds-blue"
+                        />
+                        {item}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Message */}
+                <textarea
+                  rows="3"
+                  name="message"
+                  placeholder="Write your message.."
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-b border-white/30 focus:border-wrlds-blue outline-none pb-2 resize-none"
+                ></textarea>
+
+                {error && <p className="text-red-400 text-sm">{error}</p>}
+                {success && (
+                  <p className="text-green-400 text-sm">
+                    Message sent successfully!
+                  </p>
                 )}
-              </button>
-            </form>
 
-            {/* Contact Info */}
-            <div className="mt-10 border-t border-white/10 pt-6 text-center space-y-3">
-              <a
-                href="mailto:info@cstacademy.com"
-                className="flex justify-center items-center gap-2 text-white/70 hover:text-white"
-              >
-                <Mail className="w-4 h-4" />
-                info@cstacademy.com
-              </a>
+                {/* Button */}
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-8 py-3 bg-wrlds-blue hover:opacity-90 rounded-lg font-semibold transition disabled:opacity-60"
+                  >
+                    {loading ? "Sending..." : "Send Message"}
+                  </button>
+                </div>
 
-              <a
-                href="https://www.linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex justify-center items-center gap-2 text-white/70 hover:text-white"
-              >
-                <Linkedin className="w-4 h-4" />
-                LinkedIn
-              </a>
+              </form>
+
             </div>
 
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default SimpleContact;
+export default ContactSection;

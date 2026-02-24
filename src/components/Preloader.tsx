@@ -49,7 +49,8 @@ const Preloader = () => {
                         {/* Glitchy Text Effect */}
                         <div className="overflow-hidden mb-4 flex justify-between items-end">
                             <span className="font-space font-bold text-4xl text-white tracking-tighter">
-                                WRLDS<span className="text-wrlds-blue">.</span>
+                                CST <span className="text-wrlds-blue">Academy</span>
+                                {/* CST AcADMAY<span className="text-wrlds-blue">.</span> */}
                             </span>
                             <span className="font-mono text-xs text-wrlds-muted">{Math.min(100, Math.floor(progress))}%</span>
                         </div>

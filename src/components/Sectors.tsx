@@ -81,7 +81,7 @@ const Sectors = () => {
     const [activeId, setActiveId] = useState<string | null>("sport"); // Default active for visual impact
 
     return (
-        <section className="py-24 bg-transparent relative overflow-hidden z-20">
+        <section className="py-1 bg-transparent relative overflow-hidden z-20">
 
             <div className="container px-6 relative z-10">
                 <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -91,7 +91,7 @@ const Sectors = () => {
                         className="max-w-2xl"
                     >
                         <h2 className="text-4xl md:text-6xl font-bold font-space text-white leading-[0.9] tracking-tighter">
-                            Who We  <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-wrlds-blue to-white">Train.</span>
+                            Who We <span className="text-transparent bg-clip-text bg-gradient-to-r from-wrlds-blue to-white">Train.</span>
                         </h2>
                     </motion.div>
                      
