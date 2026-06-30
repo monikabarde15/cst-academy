@@ -26,7 +26,7 @@ const AdminLayout = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
-    navigate("/launch/dashboard");
+    navigate("/cstom");
   };
 
   /* ---------------- CLOSE DROPDOWN ---------------- */
